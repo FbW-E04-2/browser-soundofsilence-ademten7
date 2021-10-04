@@ -1708,8 +1708,8 @@ const createNewList = (song) => {
     a.setAttribute("target", "_blank");
     target = "_blank"
     img.setAttribute("src", "assets/img/music.jpg");
-    img.setAttribute("width", 70)
-    img.setAttribute("height", 50)
+    img.setAttribute("width", 60)
+    img.setAttribute("height", 40)
 
     p1.innerText = song.trackName;
     p2.innerText = song.artistName;

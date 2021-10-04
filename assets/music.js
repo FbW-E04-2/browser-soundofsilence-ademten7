@@ -1679,6 +1679,7 @@ const music = [{
         isStreamable: true
     }
 ]
+
 let div = document.querySelector(".container");
 
 
@@ -1733,25 +1734,25 @@ music.forEach(song => {
 
 })
 
-let button = document.querySelector("button");
-let input = document.querySelector("input");
+let button = document.querySelector(".btn-primary");
+let input = document.querySelector(".filter-input");
 
 //for filtered songs
 button.addEventListener("click", (e) => {
     e.stopPropagation()
-    if (input.value === "") {
-        alert("Please enter a song")
-    } else {
-        let h2 = document.createElement("h2");
-        h2.innerText = `FILTERED SONGS (${input.value})`;
+        // if (input.value === "") {
+        //     alert("Please enter a song")
+        // } else {
+    let h2 = document.createElement("h2");
+    h2.innerText = `FILTERED SONGS (${input.value})`;
 
-        let divGeneral = document.querySelectorAll(".group-general");
-        divGeneral.forEach(el => {
-            el.remove();
-        })
+    let divGeneral = document.querySelectorAll(".group-general");
+    divGeneral.forEach(el => {
+        el.remove();
+    })
 
-        div.append(h2)
-        music.forEach(song => {
+    div.append(h2)
+    music.forEach(song => {
 
             if (song.primaryGenreName.toLocaleLowerCase() === input.value.toLocaleLowerCase() ||
                 song.trackName.toLocaleLowerCase() === input.value.toLocaleLowerCase() ||
@@ -1762,16 +1763,82 @@ button.addEventListener("click", (e) => {
             }
 
         })
-    }
+        // }
 
 
 })
 
 
 //to refresh the page
-let refresh = document.querySelector(".btn-danger")
+let refresh = document.querySelectorAll(".btn-danger")[1];
 
 refresh.addEventListener("click", (e) => {
     e.stopPropagation()
     location.reload();
 })
+
+// fetch("http://dataservice.accuweather.com/forecasts/v1/daily/1day/{locationKey}")
+//     .then(response => response.json())
+//     .then(data => console.log(data));
+
+
+// let key = "e495b143d1997eef5ce41e7a36135142";
+
+
+let weatherInput = document.querySelector(".weather-input");
+let city = document.querySelector(".city-name");
+let submitButton = document.querySelector(".weather-button");
+console.log(submitButton);
+let divWeather = document.querySelector(".weather");
+let form = document.querySelector(".weather-form");
+let degreeP = document.querySelector(".degree");
+let minMAx = document.querySelector(".min-max")
+let img = document.querySelector(".sunny");
+
+
+form.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+
+    // let formData = FormData(from);
+    // console.log(typeof formData);
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${weatherInput.value}&appid=e495b143d1997eef5ce41e7a36135142&units=metric`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+                // for (const { name, family: { father, uncle: { name_Uncle, job } }, age }
+                //     of people) {
+
+            const { main: { temp, temp_max, temp_min, humidity }, wind: { speed }, sys: { country } } = data;
+
+            console.log(temp)
+            console.log(data.weather[0].description);
+            let icon = data.weather[0].icon
+            console.log(icon)
+            img.setAttribute("src", `https://openweathermap.org/img/wn/${icon}@2x.png`)
+
+            // https://openweathermap.org/img/wn/10d@2x.png
+            // console.log(data.weather[0].description);
+            degreeP.innerText = `${temp.toFixed(0)}°C`
+            minMAx.innerText = `min: ${temp_min}°C  max: ${temp_max}°C Humidity: ${humidity} Speed: ${speed}km`
+            console.dir(degreeP)
+
+
+        });
+    city.innerText = `${weatherInput.value}`;
+
+    console.dir(city);
+
+    form.reset();
+})
+
+
+// fetch(`https://api.openweathermap.org/data/2.5/weather?q=Kiel&appid=e495b143d1997eef5ce41e7a36135142&units=metric`)
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log(data)
+//         const { main: { temp } } = data;
+//         console.log(temp)
+//     });

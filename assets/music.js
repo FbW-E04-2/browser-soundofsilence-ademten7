@@ -1794,6 +1794,7 @@ let form = document.querySelector(".weather-form");
 let degreeP = document.querySelector(".degree");
 let minMAx = document.querySelector(".min-max")
 let img = document.querySelector(".sunny");
+let mainP = document.querySelector(".main");
 
 
 form.addEventListener("submit", (e) => {
@@ -1816,14 +1817,16 @@ form.addEventListener("submit", (e) => {
             console.log(temp)
             console.log(data.weather[0].description);
             let icon = data.weather[0].icon
+            let main = data.weather[0].main;
             console.log(icon)
             img.setAttribute("src", `https://openweathermap.org/img/wn/${icon}@2x.png`)
 
             // https://openweathermap.org/img/wn/10d@2x.png
             // console.log(data.weather[0].description);
             degreeP.innerText = `${temp.toFixed(0)}°C`
+            mainP.innerText = `${main}`;
             minMAx.innerText = `min: ${temp_min}°C  max: ${temp_max}°C Humidity: ${humidity} Speed: ${speed}km`
-            console.dir(degreeP)
+            console.dir(degreeP);
 
 
         });
